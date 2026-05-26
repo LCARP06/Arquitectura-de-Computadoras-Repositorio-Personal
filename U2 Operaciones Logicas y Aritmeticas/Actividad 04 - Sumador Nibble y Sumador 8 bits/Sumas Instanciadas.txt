@@ -1,0 +1,43 @@
+Half Adder:
+
+module HA(input A, input B, output S, output Cout);
+    assign S = A ^ B;
+    assign Cout = A & B;
+
+endmodule
+
+
+Full Adder:
+module FA(input A, input B, input Cin, output S, output Cout);
+
+    wire S1, C1, C2;
+    
+    HA ms1 (.A(A), .B(B), .S(S1), .Cout(C1));
+    HA ms2 (.A(S1), .B(Cin), .S(S), .Cout(C2));
+    
+
+    assign Cout = C1 | C2;
+endmodule
+
+
+Suma 4 bits:
+module Sum_4b(input [3:0] A, input [3:0] B, input Cin, output [3:0] S, output Cout);
+    wire c1, c2, c3;
+    
+    FA sc0 (.A(A[0]), .B(B[0]), .Cin(Cin), .S(S[0]), .Cout(c1));
+    FA sc1 (.A(A[1]), .B(B[1]), .Cin(c1),  .S(S[1]), .Cout(c2));
+    FA sc2 (.A(A[2]), .B(B[2]), .Cin(c2),  .S(S[2]), .Cout(c3));
+    FA sc3 (.A(A[3]), .B(B[3]), .Cin(c3),  .S(S[3]), .Cout(Cout));
+
+endmodule
+
+
+Suma 8 bits:
+module Sum_8b(input [7:0] A, input [7:0] B, input Cin, output [7:0] S, output Cout);
+
+    wire x; 
+    
+    Sum_4b s4_0 (.A(A[3:0]), .B(B[3:0]), .Cin(Cin),   .S(S[3:0]), .Cout(x));
+    Sum_4b s4_1 (.A(A[7:4]), .B(B[7:4]), .Cin(x), .S(S[7:4]), .Cout(Cout));
+
+endmodule
