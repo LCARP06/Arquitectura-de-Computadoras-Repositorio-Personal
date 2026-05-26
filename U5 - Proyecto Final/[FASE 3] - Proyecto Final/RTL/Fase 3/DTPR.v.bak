@@ -1,0 +1,11 @@
+module DTPR(
+    input clk,
+    input reset
+);
+
+    DPTR uut(
+        .clk(clk),
+        .reset(reset)
+    );
+
+endmodule
